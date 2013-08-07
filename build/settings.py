@@ -174,7 +174,8 @@ settings = {
  "wifi.suspended": False,
  "wifi.disabled_by_wakelock": False,
  "wifi.notification": False,
- "wifi.connect_via_settings": False
+ "wifi.connect_via_settings": False,
+ "wifi.wifidirect.enabled": False
 }
 
 def main():

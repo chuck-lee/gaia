@@ -41,7 +41,8 @@
                "bluetooth-authorize",
                "bluetooth-cancel",
                "bluetooth-pairedstatuschanged",
-               "bluetooth-hfp-status-changed"],
+               "bluetooth-hfp-status-changed",
+               "wifidirect-pairing-request"],
   "locales": {
     "ar": {
       "name": "الضبط",

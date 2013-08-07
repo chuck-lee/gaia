@@ -623,6 +623,44 @@
       -->
     </section>
 
+    <!-- Connectivity :: Wi-Fi -->
+    <section role="region" id="wifiDirect">
+      <!--
+      <header>
+        <a href="#root"><span class="icon icon-back">back</span></a>
+        <h1 data-l10n-id="wifi"> Wi-Fi Direct </h1>
+      </header>
+
+      <div>
+      <ul>
+        <li id="wifiDirect-enabled">
+          <label class="pack-switch">
+            <input type="checkbox" data-type="switch" />
+            <span></span>
+          </label>
+          <a data-l10n-id="wifiDirect">Wi-Fi Direct</a>
+        </li>
+      </ul>
+
+      <header>
+        <h2 data-l10n-id="wifiDirectPeers"> Wi-Fi Direct Peers </h2>
+      </header>
+      <ul id="wifiDirectPeerList" data-state="off">
+        <li class="explanation" data-state="off" data-l10n-id="wifiDirect-disabled">
+          Turn Wi-Fi Direct on and search for peers.
+        </li>
+        <li class="explanation" data-state="on">
+          <label>
+            <button id="taggleWifiDirectPeerDiscovery" data-l10n-id="taggleWifiDirectPeerDiscovery">Search Start</button>
+          </label>
+        </li>
+      </ul>
+      </div>
+
+      <script type="application/javascript" src="js/wifiDirect.js"></script>
+      -->
+    </section>
+
     <!-- Connectivity :: Cellular & Data :: Network Operator -->
     <section role="region" id="carrier-operatorSettings">
       <!--
@@ -2883,6 +2921,10 @@
             <small id="wifi-desc" class="menu-item-desc"></small>
             <a id="menuItem-wifi" class="menu-item" href="#wifi" data-l10n-id="wifi">Wi-Fi</a>
           </li>
+          <li>
+	          <small id="wifiDirect-desc" class="menu-item-desc" data-l10n-id="fullStatus-disconnected">offline</small>
+	          <a id="menuItem-wifiDirect" class="menu-item" href="#wifiDirect" data-l10n-id="wifiDirect">Wi-Fi Direct</a>
+	      </li>
           <li id="call-settings">
             <small id="call-desc" class="menu-item-desc"></small>
             <a id="menuItem-callSettings" class="menu-item" href="#call"

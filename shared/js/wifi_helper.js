@@ -1,6 +1,169 @@
 'use strict';
 
 var WifiHelper = {
+  getWifiDirectManager: function() {
+    dump('######## Gaia:wifi_helper.js::getWifiDirectManager()\n');
+    return this.wifiDirectManager;
+  },
+
+  wifiDirectManager: function() {
+    dump('######## Gaia:wifi_helper.js::wifiDirectManager()\n');
+    var navigator = window.navigator;
+    if ('mozWifiDirectManager' in navigator)
+      return navigator.mozWifiDirectManager;
+
+    dump('######## Gaia:wifi_helper.js::wifiDirectManager(), get fake wifi direct manager\n');
+
+    /**
+     * fake peer list, where each peer object looks like:
+     * {
+     *   address           : MAC of peer, string
+     *   name              : Name of peer, string
+     *   isGroupOwner      : If peer is group owner, bool
+     *   wpsCapability     : Supported WPS mode, array of strings
+     * }
+     */
+    var fakePeers = [
+      {
+        address: '00:00:00:00:00:01',
+        name: 'WPS_ALL',
+        connectState: 'available',
+        isGroupOwner: false,
+        wpsCapability: ['DISPLAY', 'PBC', 'KEYPAD']
+      },
+      {
+        address: '00:00:00:00:00:02',
+        name: 'WPS_DISPLAY_ONLY',
+        connectState: 'available',
+        isGroupOwner: false,
+        wpsCapability: ['DISPLAY']
+      },
+      {
+        address: '00:00:00:00:00:03',
+        name: 'WPS_PBC_ONLY',
+        connectState: 'available',
+        isGroupOwner: false,
+        wpsCapability: ['PBC']
+      },
+      {
+        address: '00:00:00:00:00:04',
+        name: 'WPS_KEYPAD_ONLY',
+        connectState: 'available',
+        isGroupOwner: false,
+        wpsCapability: ['KEYPAD']
+      },
+      {
+        address: '00:00:00:00:00:02',
+        name: 'WPS_DISPLAY_KEYPAD',
+        connectState: 'available',
+        isGroupOwner: false,
+        wpsCapability: ['DISPLAY', 'KEYPAD']
+      }
+    ];
+
+    function getFakePeers() {
+      var request = { result: fakePeers };
+
+      setTimeout(function() {
+        if (request.onsuccess) {
+          request.onsuccess();
+        }
+      }, 1000);
+
+      return request;
+    }
+
+    return {
+      enableScan: function () {
+        var self = this;
+        var request = {};
+        dump('######### dummy mozWifiDirectManager.enableWifiDirectScan()\n');
+
+        setTimeout(function() {
+          if (request.onsuccess) {
+            request.onsuccess();
+          }
+
+          self.onpeerinfoupdate();
+        }, 1000);
+
+        return request;
+      },
+
+      disableScan: function () {
+        dump('######### dummy mozWifiDirectManager.disableWifiDirectScan()\n');
+        var request = {};
+
+        setTimeout(function() {
+          if (request.onsuccess) {
+            request.onsuccess();
+          }
+        }, 1000);
+
+        return request;
+      },
+
+      connect: function (peerInfo) {
+        var self = this;
+        dump('######### dummy mozWifiDirectManager.connect(), peerInfo: ' + JSON.stringify(peerInfo) + '\n');
+        var request = {};
+
+        setTimeout(function() {
+          var targetPeer = null;
+          for (var i = 0;i < fakePeers.length; i++) {
+            if (fakePeers[i].address === peerInfo.address) {
+              targetPeer = fakePeers[i];
+              targetPeer.connectState = "connecting";
+            } else {
+              fakePeers[i].connectState = "available";
+            }
+          }
+          self.onpeerinfoupdate();
+
+          setTimeout(function() {
+            targetPeer.connectState = "connected";
+            self.onpeerinfoupdate();
+
+            if (request.onsuccess) {
+              request.onsuccess();
+            }
+          }, 1000);
+        }, 1000);
+
+        return request;
+      },
+
+      disconnect: function (peer) {
+        var self = this;
+        dump('######### dummy mozWifiDirectManager.disconnect()\n');
+        var request = {};
+
+        setTimeout(function() {
+          for (var i = 0;i < fakePeers.length; i++) {
+            if (fakePeers[i].address === peerInfo.address) {
+              fakePeers[i].connectState = "available";
+              self.onpeerinfoupdate();
+              break;
+            }
+          }
+
+          if (request.onsuccess) {
+            request.onsuccess();
+          }
+        }, 1000);
+
+        return request;
+      },
+
+      getPeerList: getFakePeers,
+
+      onenabled: function(event) {},
+      ondisabled: function(event) {},
+      onstatuschange: function(event) {},
+      onpeerinfoupdate: function(event) {}
+    };
+  }(),
+
   getWifiManager: function() {
     return this.wifiManager;
   },

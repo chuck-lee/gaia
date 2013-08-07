@@ -336,7 +336,6 @@ var Connectivity = (function(window, document, undefined) {
   };
 })(this, document);
 
-
 // starting when we get a chance
 navigator.mozL10n.ready(function loadWhenIdle() {
   var idleObserver = {
